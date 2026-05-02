@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    "lib": ["ES2023"],
+    "module": "preserve",
+    "target": "ES2023",
+
+    /* Bundler mode */
+    "allowImportingTsExtensions": true,
+    "declaration": true,
+    "declarationMap": true,
+    "moduleResolution": "bundler",
+    "outDir": "dist",
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "sourceMap": true,
+    "types": ["node"],
+
+    /* Linting */
+    "strict": true,
+  },
+  "exclude": [
+    "node_modules"
+  ],
+  "include": ["src"]
+}

@@ -1,0 +1,31 @@
+# Logs
+*.log
+logs
+lerna-debug.log*
+npm-debug.log*
+pnpm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Build and local files
+*.local
+/trash
+.db-commando
+dev-config.local.json
+dist
+dist-ssr
+node_modules
+
+# Editor directories and files
+*.ntvs*
+*.njsproj
+*.sln
+*.suo
+*.sw?
+.DS_Store
+.idea
+.vscode/*
+!.vscode/extensions.json
+
+# AI
+.claude

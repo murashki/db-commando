@@ -1,0 +1,15 @@
+import type { DB_TABLE } from '../DB_TABLE.ts';
+
+export type DbTableBooleanColumn<
+  TKey extends string = string,
+  TDbItem extends Record<string, any> = Record<string, any>,
+> = {
+  columnName: TKey;
+  dataType: typeof DB_TABLE.COLUMN.TYPE.BOOLEAN;
+  disabled?: boolean;
+  maxWidth?: number;
+  render?: {
+    (value: TDbItem[TKey], item: TDbItem): string;
+  };
+  title?: string;
+};

@@ -1,0 +1,1 @@
+pg_dump -U yakov -d rubik_dev -t "\"public\".\"Account\"" --schema-only  --no-owner --no-privileges --no-tablespaces --no-comments | grep -v -E '^--|^SET|^SELECT|^$'
