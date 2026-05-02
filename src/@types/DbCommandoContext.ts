@@ -2,7 +2,7 @@ import type { DbTableConfig } from '../dbTableConstructor/@types/DbTableConfig.t
 import type { DbClient } from './DbClient.ts';
 import type { Environment } from './Environment.ts';
 
-export type AppContext = {
+export type DbCommandoContext = {
   dbClient: DbClient;
   environment: Environment;
   masterMode: boolean;

@@ -3,12 +3,12 @@ import { confirmAction } from 'proprompt';
 import { exception } from 'proprompt';
 import { message } from 'proprompt';
 import { select } from 'proprompt';
+import type { DbCommandoContext } from '../../@types/DbCommandoContext.ts';
 import { getTableNames } from '../../tools/getTableNames.ts';
 import { confirmDbQuery } from '../../tools/confirmDbQuery.ts';
 import { updateExecutedDbQueryLogFile } from '../../tools/updateExecutedDbQueryLogFile.ts';
-import type { AppContext } from '../../@types/AppContext.ts';
 
-export async function handleDropDbTableModule(context: AppContext): Promise<void> {
+export async function handleDropDbTableModule(context: DbCommandoContext): Promise<void> {
   while (true) {
     const tableNames = await getTableNames(context);
 

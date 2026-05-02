@@ -1,12 +1,12 @@
 import { message } from 'proprompt';
 import { select } from 'proprompt';
-import { getTableNames } from '../../tools/getTableNames.ts';
+import type { DbCommandoContext } from '../../@types/DbCommandoContext.ts';
 import type { DbTable } from '../../dbTableConstructor/@types/DbTable.ts';
-import type { AppContext } from '../../@types/AppContext.ts';
-import { EDbTableAdminMenuKey } from './menu.ts';
+import { getTableNames } from '../../tools/getTableNames.ts';
 import { DB_TABLE_MENU_OPTIONS } from './menu.ts';
+import { EDbTableAdminMenuKey } from './menu.ts';
 
-export async function handleDbTableAdminModule(context: AppContext): Promise<void> {
+export async function handleDbTableAdminModule(context: DbCommandoContext): Promise<void> {
   while (true) {
     const tables = await getTables(context);
 
@@ -49,7 +49,7 @@ export async function handleDbTableAdminModule(context: AppContext): Promise<voi
   }
 }
 
-async function getTables(context: AppContext): Promise<DbTable<any>[]> {
+async function getTables(context: DbCommandoContext): Promise<DbTable<any>[]> {
   const tableNames = await getTableNames(context);
 
   return tableNames.map((tableName) => {

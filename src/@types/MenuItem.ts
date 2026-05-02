@@ -1,7 +1,7 @@
-import type { AppContext } from './AppContext.ts';
+import type { DbCommandoContext } from './DbCommandoContext.ts';
 
 export type MenuItem = {
   key: string;
   label: string;
-  module?: (context: AppContext, ...args: any[]) => Promise<any>;
+  module?: (context: DbCommandoContext, ...args: any[]) => Promise<any>;
 };

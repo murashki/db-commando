@@ -5,6 +5,9 @@ import { message } from 'proprompt';
 import { select } from 'proprompt';
 import { TerminatedByEsc } from 'proprompt';
 import { text } from 'proprompt';
+import type { ColumnType } from '../../../../@types/ColumnType.ts';
+import type { DbColumnValue } from '../../../../@types/DbColumnValue.ts';
+import type { DbCommandoContext } from '../../../../@types/DbCommandoContext.ts';
 import type { DbTable } from '../../../../dbTableConstructor/@types/DbTable.ts';
 import { columnTypes } from '../../../../tools/columnTypes.ts';
 import { confirmDbQuery } from '../../../../tools/confirmDbQuery.ts';
@@ -13,16 +16,13 @@ import { getArraySafeColumnType } from '../../../../tools/getArraySafeColumnType
 import { printDbTableSchema } from '../../../../tools/printDbTableSchema.ts';
 import { querifyValue } from '../../../../tools/querifyValue.ts';
 import { updateExecutedDbQueryLogFile } from '../../../../tools/updateExecutedDbQueryLogFile.ts';
-import type { AppContext } from '../../../../@types/AppContext.ts';
-import type { ColumnType } from '../../../../@types/ColumnType.ts';
-import type { DbColumnValue } from '../../../../@types/DbColumnValue.ts';
 
 // TODO SERIAL and similar types cannot be created yet
 // TODO For TIMESTAMP and TIMESTAMPTZ the default datetime precision is 6.
 //   Specifying TIMESTAMP(7) will still produce TIMESTAMP(6) since 6 is the max.
 //   Both points should be reflected in the field hint.
 
-export async function handleAddColumnModule(context: AppContext, table: DbTable): Promise<void> {
+export async function handleAddColumnModule(context: DbCommandoContext, table: DbTable): Promise<void> {
   type SpecResult = {
     key: string;
     value: string;

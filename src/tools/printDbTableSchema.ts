@@ -3,12 +3,12 @@ import type { TableColumn } from 'proprompt';
 import { message } from 'proprompt';
 import { stringify } from 'proprompt';
 import { table } from 'proprompt';
-import { getDbTableSchema } from './getDbTableSchema.ts';
-import type { AppContext } from '../@types/AppContext.ts';
 import type { DbColumnSchema } from '../@types/DbColumnSchema.ts';
+import type { DbCommandoContext } from '../@types/DbCommandoContext.ts';
+import { getDbTableSchema } from './getDbTableSchema.ts';
 import { isSpecialValue } from './isSpecialValue.ts';
 
-export async function printDbTableSchema(context: AppContext, tableName: string) {
+export async function printDbTableSchema(context: DbCommandoContext, tableName: string) {
   const dbTableSchema = await getDbTableSchema(context, tableName);
 
   if ( ! dbTableSchema.length) {

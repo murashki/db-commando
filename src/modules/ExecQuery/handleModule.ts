@@ -2,9 +2,9 @@ import { exception } from 'proprompt';
 import { message } from 'proprompt';
 import { plainObjectTable } from 'proprompt';
 import { text } from 'proprompt';
-import type { AppContext } from '../../@types/AppContext.ts';
+import type { DbCommandoContext } from '../../@types/DbCommandoContext.ts';
 
-export async function handleExecQueryModule(context: AppContext) {
+export async function handleExecQueryModule(context: DbCommandoContext) {
   let lastQuery = ``;
 
   while (true) {

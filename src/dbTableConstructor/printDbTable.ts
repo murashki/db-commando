@@ -4,7 +4,7 @@ import { line } from 'proprompt';
 import { message } from 'proprompt';
 import { table } from 'proprompt';
 import { stringify } from 'proprompt';
-import type { AppContext } from '../@types/AppContext.ts';
+import type { DbCommandoContext } from '../@types/DbCommandoContext.ts';
 import { printDbQuery } from '../tools/printDbQuery.ts';
 import type { DbTableConfig } from './@types/DbTableConfig.ts';
 import { DB_TABLE } from './DB_TABLE.ts';
@@ -14,7 +14,7 @@ import { isDbTableStringReplaceRender } from './isDbTableStringReplaceRender.ts'
 
 export async function printDbTable<
   TDbItem extends Record<string, any> = Record<string, any>,
->(context: AppContext, config: DbTableConfig<TDbItem>) {
+>(context: DbCommandoContext, config: DbTableConfig<TDbItem>) {
   const query = getQuery(config);
 
   await line(c.dim(`DB query:`));

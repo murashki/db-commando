@@ -3,12 +3,12 @@ import c from 'chalk';
 import { format } from 'date-fns/format';
 import { line } from 'proprompt';
 import { message } from 'proprompt';
+import type { DbCommandoContext } from '../../@types/DbCommandoContext.ts';
 import type { QueryExecutionEvent } from '../../tools/@types/QueryExecutionEvent.ts';
 import { printDbQuery } from '../../tools/printDbQuery.ts';
-import type { AppContext } from '../../@types/AppContext.ts';
 import { QUERY_EXECUTION_HISTORY_FILE_NAME } from '../../constants.ts';
 
-export async function handleQueryExecHistoryModule(context: AppContext): Promise<void> {
+export async function handleQueryExecHistoryModule(context: DbCommandoContext): Promise<void> {
   const filePath = `${context.systemFolder}/${QUERY_EXECUTION_HISTORY_FILE_NAME}`;
   let queryHistory: QueryExecutionEvent[] = [];
   if (fs.existsSync(filePath)) {

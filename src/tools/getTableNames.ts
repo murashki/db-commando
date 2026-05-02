@@ -1,6 +1,6 @@
-import type { AppContext } from '../@types/AppContext.ts';
+import type { DbCommandoContext } from '../@types/DbCommandoContext.ts';
 
-export async function getTableNames(context: AppContext): Promise<string[]> {
+export async function getTableNames(context: DbCommandoContext): Promise<string[]> {
   const result = await context.dbClient.query<{ tableName: string }>(`
     SELECT "tablename" AS "tableName"
     FROM "pg_catalog"."pg_tables"

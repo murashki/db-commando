@@ -1,7 +1,7 @@
 import { editFile } from 'proprompt';
 import { line } from 'proprompt';
 import { select } from 'proprompt';
-import type { AppContext } from '../@types/AppContext.ts';
+import type { DbCommandoContext } from '../@types/DbCommandoContext.ts';
 import { QUERY_EDIT_FILE_NAME } from '../constants.ts';
 import { printDbQuery } from './printDbQuery.ts';
 
@@ -15,7 +15,7 @@ import { printDbQuery } from './printDbQuery.ts';
  * Throws:
  *   TerminatedByCtrlC - if the user dismissed with Ctrl+C;
  */
-export async function confirmDbQuery(query: string, context: AppContext): Promise<void | string> {
+export async function confirmDbQuery(query: string, context: DbCommandoContext): Promise<void | string> {
   await line(`The following query will be executed:`, { as: `warning` });
   await line(``, { as: `clear` });
   await printDbQuery(query);

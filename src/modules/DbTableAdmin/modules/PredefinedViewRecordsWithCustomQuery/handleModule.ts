@@ -1,12 +1,12 @@
 import { editFile } from 'proprompt';
 import { message } from 'proprompt';
+import type { DbCommandoContext } from '../../../../@types/DbCommandoContext.ts';
+import { QUERY_EDIT_FILE_NAME } from '../../../../constants.ts';
 import type { DbTable } from '../../../../dbTableConstructor/@types/DbTable.ts';
 import { getQuery } from '../../../../dbTableConstructor/getQuery.ts';
 import { printDbTable } from '../../../../dbTableConstructor/printDbTable.ts';
-import type { AppContext } from '../../../../@types/AppContext.ts';
-import { QUERY_EDIT_FILE_NAME } from '../../../../constants.ts';
 
-export async function handlePredefinedViewRecordsWithCustomQueryModule(context: AppContext, table: DbTable): Promise<void> {
+export async function handlePredefinedViewRecordsWithCustomQueryModule(context: DbCommandoContext, table: DbTable): Promise<void> {
   if (table.config) {
     const query = getQuery(table.config) + `\n`;
     const nextQuery = await editFile(`${context.systemFolder}/${QUERY_EDIT_FILE_NAME}`, {

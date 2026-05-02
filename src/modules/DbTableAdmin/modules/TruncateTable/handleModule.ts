@@ -2,12 +2,12 @@ import pg from 'pg';
 import { TerminatedByEsc } from 'proprompt';
 import { exception } from 'proprompt';
 import { message } from 'proprompt';
+import type { DbCommandoContext } from '../../../../@types/DbCommandoContext.ts';
 import type { DbTable } from '../../../../dbTableConstructor/@types/DbTable.ts';
 import { confirmDbQuery } from '../../../../tools/confirmDbQuery.ts';
 import { updateExecutedDbQueryLogFile } from '../../../../tools/updateExecutedDbQueryLogFile.ts';
-import type { AppContext } from '../../../../@types/AppContext.ts';
 
-export async function handleTruncateTableModule(context: AppContext, table: DbTable) {
+export async function handleTruncateTableModule(context: DbCommandoContext, table: DbTable) {
   try {
     const query = await buildQuery({
       tableName: table.name,

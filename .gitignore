@@ -17,8 +17,8 @@ dist-ssr
 node_modules
 
 # Editor directories and files
-*.ntvs*
 *.njsproj
+*.ntvs*
 *.sln
 *.suo
 *.sw?

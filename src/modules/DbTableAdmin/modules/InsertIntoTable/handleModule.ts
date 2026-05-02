@@ -2,16 +2,16 @@ import pg from 'pg';
 import { exception } from 'proprompt';
 import { message } from 'proprompt';
 import { TerminatedByEsc } from 'proprompt';
+import type { DbColumnValue } from '../../../../@types/DbColumnValue.ts';
+import type { DbCommandoContext } from '../../../../@types/DbCommandoContext.ts';
+import type { DbTable } from '../../../../dbTableConstructor/@types/DbTable.ts';
 import { confirmDbQuery } from '../../../../tools/confirmDbQuery.ts';
 import { enterColumnValue } from '../../../../tools/enterColumnValue.ts';
 import { getDbTableSchema } from '../../../../tools/getDbTableSchema.ts';
 import { querifyValue } from '../../../../tools/querifyValue.ts';
 import { updateExecutedDbQueryLogFile } from '../../../../tools/updateExecutedDbQueryLogFile.ts';
-import type { DbTable } from '../../../../dbTableConstructor/@types/DbTable.ts';
-import type { AppContext } from '../../../../@types/AppContext.ts';
-import type { DbColumnValue } from '../../../../@types/DbColumnValue.ts';
 
-export async function handleInsertIntoTableModule(context: AppContext, table: DbTable) {
+export async function handleInsertIntoTableModule(context: DbCommandoContext, table: DbTable) {
   const dbTableSchema = await getDbTableSchema(context, table.name);
 
   if ( ! dbTableSchema.length) {

@@ -4,11 +4,11 @@ import { message } from 'proprompt';
 import { TerminatedByEsc } from 'proprompt';
 import { text } from 'proprompt';
 import { confirmDbQuery } from '../../tools/confirmDbQuery.ts';
-import { updateExecutedDbQueryLogFile } from '../../tools/updateExecutedDbQueryLogFile.ts';
-import type { AppContext } from '../../@types/AppContext.ts';
+import type { DbCommandoContext } from '../../@types/DbCommandoContext.ts';
 import { getTableNames } from '../../tools/getTableNames.ts';
+import { updateExecutedDbQueryLogFile } from '../../tools/updateExecutedDbQueryLogFile.ts';
 
-export async function handleCreateDbTableModule(context: AppContext) {
+export async function handleCreateDbTableModule(context: DbCommandoContext) {
   try {
     while (true) {
       const tableNameTextResult = await text({

@@ -1,4 +1,4 @@
-import type { AppContext } from '../../@types/AppContext.ts';
+import type { DbCommandoContext } from '../../@types/DbCommandoContext.ts';
 import type { DbTable } from '../../dbTableConstructor/@types/DbTable.ts';
 import { getCommonMenuOptions } from '../../tools/getCommonMenuOptions.ts';
 import { handleAddColumnModule } from './modules/AddColumn/handleModule.ts';
@@ -28,7 +28,7 @@ export enum EDbTableAdminMenuKey {
 type DbTableMenuItem = {
   key: string;
   label: string;
-  module?: (context: AppContext, table: DbTable) => Promise<any>;
+  module?: (context: DbCommandoContext, table: DbTable) => Promise<any>;
 };
 
 export const DB_TABLE_MENU_OPTIONS = getCommonMenuOptions<DbTableMenuItem>([

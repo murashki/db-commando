@@ -4,14 +4,14 @@ import { message } from 'proprompt';
 import { select } from 'proprompt';
 import { TerminatedByEsc } from 'proprompt';
 import { text } from 'proprompt';
+import type { DbCommandoContext } from '../../../../@types/DbCommandoContext.ts';
 import type { DbTable } from '../../../../dbTableConstructor/@types/DbTable.ts';
 import { confirmDbQuery } from '../../../../tools/confirmDbQuery.ts';
 import { getDbTableSchema } from '../../../../tools/getDbTableSchema.ts';
 import { printDbTableSchema } from '../../../../tools/printDbTableSchema.ts';
 import { updateExecutedDbQueryLogFile } from '../../../../tools/updateExecutedDbQueryLogFile.ts';
-import type { AppContext } from '../../../../@types/AppContext.ts';
 
-export async function handleRenameColumnModule(context: AppContext, table: DbTable): Promise<void> {
+export async function handleRenameColumnModule(context: DbCommandoContext, table: DbTable): Promise<void> {
   const dbTableSchema = await getDbTableSchema(context, table.name);
 
   if (dbTableSchema.length === 0) {

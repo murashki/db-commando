@@ -1,15 +1,15 @@
+import type { DbCommandoContext } from '../../../../@types/DbCommandoContext.ts';
+import { EPgKeywords } from '../../../../@types/EPgKeywords.ts';
 import type { DbTable } from '../../../../dbTableConstructor/@types/DbTable.ts';
 import type { DbTableAnyColumn } from '../../../../dbTableConstructor/@types/DbTableAnyColumn.ts';
 import type { DbTableArrayOfAnyColumn } from '../../../../dbTableConstructor/@types/DbTableArrayOfAnyColumn.ts';
 import type { DbTableConfig } from '../../../../dbTableConstructor/@types/DbTableConfig.ts';
 import type { DbTableNumberColumn } from '../../../../dbTableConstructor/@types/DbTableNumberColumn.ts';
 import type { DbTableStringColumn } from '../../../../dbTableConstructor/@types/DbTableStringColumn.ts';
-import { getDbTableSchema } from '../../../../tools/getDbTableSchema.ts';
 import { printDbTable } from '../../../../dbTableConstructor/printDbTable.ts';
-import { EPgKeywords } from '../../../../@types/EPgKeywords.ts';
-import type { AppContext } from '../../../../@types/AppContext.ts';
+import { getDbTableSchema } from '../../../../tools/getDbTableSchema.ts';
 
-export async function handleViewRecordsModule(context: AppContext, table: DbTable): Promise<void> {
+export async function handleViewRecordsModule(context: DbCommandoContext, table: DbTable): Promise<void> {
   const dbTableSchema = await getDbTableSchema(context, table.name);
 
   const columns = dbTableSchema.map((column) => {

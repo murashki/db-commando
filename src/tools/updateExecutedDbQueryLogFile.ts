@@ -1,9 +1,9 @@
 import fs from 'node:fs';
-import type { AppContext } from '../@types/AppContext.ts';
+import type { DbCommandoContext } from '../@types/DbCommandoContext.ts';
 import { QUERY_EXECUTION_HISTORY_FILE_NAME } from '../constants.ts';
 import type { QueryExecutionEvent } from './@types/QueryExecutionEvent.ts';
 
-export async function updateExecutedDbQueryLogFile(context: AppContext, queryExecutionEvent: Omit<QueryExecutionEvent, `datetime`>) {
+export async function updateExecutedDbQueryLogFile(context: DbCommandoContext, queryExecutionEvent: Omit<QueryExecutionEvent, `datetime`>) {
   const filePath = `${context.systemFolder}/${QUERY_EXECUTION_HISTORY_FILE_NAME}`;
   let queryHistory: QueryExecutionEvent[] = [];
   if (fs.existsSync(filePath)) {

@@ -1,10 +1,10 @@
 import { message } from 'proprompt';
 import { select } from 'proprompt';
-import type { AppContext } from './@types/AppContext.ts';
+import type { DbCommandoContext } from './@types/DbCommandoContext.ts';
 import { EPgCommandoMenuKey } from './menu.ts';
 import { PG_COMMANDO_MENU_OPTIONS } from './menu.ts';
 
-export async function pgCommando(context: AppContext): Promise<void> {
+export async function pgCommando(context: DbCommandoContext): Promise<void> {
   while (true) {
     const menuSelectResult = await select({
       message: 'Select an option',

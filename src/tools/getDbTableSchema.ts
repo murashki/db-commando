@@ -1,11 +1,10 @@
 import pg from 'pg';
-import type { AppContext } from '../@types/AppContext.ts';
 import type { ColumnType } from '../@types/ColumnType.ts';
+import type { DbClient } from '../@types/DbClient.ts';
 import type { DbColumnSchema } from '../@types/DbColumnSchema.ts';
 import type { DbColumnValue } from '../@types/DbColumnValue.ts';
-import type { DbClient } from '../@types/DbClient.ts';
+import type { DbCommandoContext } from '../@types/DbCommandoContext.ts';
 import { EPgKeywords } from '../@types/EPgKeywords.ts';
-// @ts-ignore
 import { parse } from './defaultValueParser/parser.js';
 import { arrayColumnType } from './arrayColumnType.ts';
 import { columnTypes } from './columnTypes.ts';
@@ -37,7 +36,7 @@ const textPgTypeOuts = [
   EPgKeywords.VARCHAR_PG_TYPE_OUT,
 ].flatMap((type) => type.split(`|`));
 
-export async function getDbTableSchema(context: AppContext, tableName: string): Promise<DbColumnSchema[]> {
+export async function getDbTableSchema(context: DbCommandoContext, tableName: string): Promise<DbColumnSchema[]> {
   const query = `
     SELECT
       "columns"."column_name" AS "name",

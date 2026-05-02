@@ -3,7 +3,7 @@ import { getUnixTime } from 'date-fns/getUnixTime';
 import { parseISO } from 'date-fns/parseISO';
 import { select } from 'proprompt';
 import { text } from 'proprompt';
-import type { AppContext } from '../@types/AppContext.ts';
+import type { DbCommandoContext } from '../@types/DbCommandoContext.ts';
 
 // TODO proper client types should be defined here
 type ApiClient = any;
@@ -17,7 +17,7 @@ export type TravelerProgram<
   as: <
     TNextResponse extends any,
   >(cb: (data: TResponse, api: ApiClient, db: DbClient) => TNextResponse | Promise<TNextResponse>) => TravelerProgram<TParams, TNextResponse>;
-  run: (context: AppContext) => Promise<symbol | TResponse>;
+  run: (context: DbCommandoContext) => Promise<symbol | TResponse>;
 };
 
 export type TravelerProgramApiRequest<
@@ -190,7 +190,7 @@ export const BREAK = Symbol(`TRAVELER_BREAK`);
 
 export async function traveler<
   TParams extends undefined | Record<string, any>,
->(context: AppContext, config: TravelerProgramConfig<TParams>): Promise<symbol | TParams> {
+>(context: DbCommandoContext, config: TravelerProgramConfig<TParams>): Promise<symbol | TParams> {
   const params: Record<string, any> = {};
 
   for (const paramName in config.params) {
@@ -345,7 +345,7 @@ export function createProgram<
               return nextCb(data, api, db);
             });
           },
-          run: async (context: AppContext): Promise<symbol | TResponse> => {
+          run: async (context: DbCommandoContext): Promise<symbol | TResponse> => {
             const params = await traveler(context, config);
             if (typeof params === `symbol`) {
               return BREAK;
