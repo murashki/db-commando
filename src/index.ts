@@ -9,4 +9,4 @@ export * from './@types/index.ts';
 // export * from './travaler/index.ts';
 export * from './constants.ts';
 // export * from './menu.ts';
-export * from './pgCommando.ts';
+export * from './dbCommando.ts';

@@ -5,7 +5,7 @@ import { handleExecQueryModule } from './modules/ExecQuery/handleModule.ts';
 import { handleQueryExecHistoryModule } from './modules/QueryExecHistory/handleModule.ts';
 import { getCommonMenuOptions } from './tools/getCommonMenuOptions.ts';
 
-export enum EPgCommandoMenuKey {
+export enum EDbCommandoMenuKey {
   BACK = `BACK`,
   CREATE_TABLE = `CREATE_TABLE`,
   EXEC_QUERY = `EXEC_QUERY`,
@@ -14,34 +14,34 @@ export enum EPgCommandoMenuKey {
   TABLES = `TABLES`,
 }
 
-export const PG_COMMANDO_MENU_OPTIONS = getCommonMenuOptions([
+export const DB_COMMANDO_MENU_OPTIONS = getCommonMenuOptions([
   {
-    key: EPgCommandoMenuKey.TABLES,
+    key: EDbCommandoMenuKey.TABLES,
     label: `Tables...`,
     module: handleDbTableAdminModule,
   },
   {
-    key: EPgCommandoMenuKey.CREATE_TABLE,
+    key: EDbCommandoMenuKey.CREATE_TABLE,
     label: `Create table...`,
     module: handleCreateDbTableModule,
   },
   {
-    key: EPgCommandoMenuKey.REMOVE_TABLE,
+    key: EDbCommandoMenuKey.REMOVE_TABLE,
     label: `Drop table...`,
     module: handleDropDbTableModule,
   },
   {
-    key: EPgCommandoMenuKey.EXEC_QUERY,
+    key: EDbCommandoMenuKey.EXEC_QUERY,
     label: `Execute query...`,
     module: handleExecQueryModule,
   },
   {
-    key: EPgCommandoMenuKey.QUERY_EXEC_HISTORY,
+    key: EDbCommandoMenuKey.QUERY_EXEC_HISTORY,
     label: `Query execution history`,
     module: handleQueryExecHistoryModule,
   },
   {
-    key: EPgCommandoMenuKey.BACK,
+    key: EDbCommandoMenuKey.BACK,
     label: `Go back`,
   },
 ]);

@@ -5,7 +5,7 @@ import type { DbColumnSchema } from '../@types/DbColumnSchema.ts';
 import type { DbColumnValue } from '../@types/DbColumnValue.ts';
 import type { DbCommandoContext } from '../@types/DbCommandoContext.ts';
 import { EPgKeywords } from '../@types/EPgKeywords.ts';
-import { parse } from './defaultValueParser/parser.js';
+import { parse } from './defaultValueParser/index.ts';
 import { arrayColumnType } from './arrayColumnType.ts';
 import { columnTypes } from './columnTypes.ts';
 
