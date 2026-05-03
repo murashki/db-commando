@@ -30,7 +30,7 @@ export async function handleCreateDbTableModule(context: DbCommandoContext) {
 
         if (queryConfirmed) {
           try {
-            await context.dbClient.query(query);
+            await context.dbConnection.query(query);
             await message(`Successfully executed`, { as: `success` });
             await updateExecutedDbQueryLogFile(context, {
               query,

@@ -22,7 +22,7 @@ export async function printDbTable<
   await printDbQuery(query);
   await line(``, { as: `clear` });
 
-  const rows = (await context.dbClient.query<TDbItem>(query)).rows;
+  const rows = (await context.dbConnection.query<TDbItem>(query)).rows;
 
   if ( ! rows.length) {
     await message(`No records found`, { as: `warning` });

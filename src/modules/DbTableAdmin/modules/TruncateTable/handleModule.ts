@@ -17,7 +17,7 @@ export async function handleTruncateTableModule(context: DbCommandoContext, tabl
 
     if (queryConfirmed) {
       try {
-        await context.dbClient.query(query);
+        await context.dbConnection.query(query);
       } catch (error) {
         await updateExecutedDbQueryLogFile(context, {
           query,

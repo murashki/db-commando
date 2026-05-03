@@ -47,7 +47,7 @@ export async function handleInsertIntoTableModule(context: DbCommandoContext, ta
 
       if (queryConfirmed) {
         try {
-          await context.dbClient.query(query);
+          await context.dbConnection.query(query);
         } catch (error) {
           await updateExecutedDbQueryLogFile(context, {
             query,

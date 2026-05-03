@@ -1,10 +1,11 @@
+import c from 'chalk';
 import { message } from 'proprompt';
 import { select } from 'proprompt';
 import type { DbCommandoContext } from '../../@types/DbCommandoContext.ts';
 import type { DbTable } from '../../dbTableConstructor/@types/DbTable.ts';
 import { getTableNames } from '../../tools/getTableNames.ts';
-import { DB_TABLE_MENU_OPTIONS } from './menu.ts';
 import { EDbTableAdminMenuKey } from './menu.ts';
+import { DB_TABLE_ADMIN_MENU_OPTIONS } from './menu.ts';
 
 export async function handleDbTableAdminModule(context: DbCommandoContext): Promise<void> {
   while (true) {
@@ -18,7 +19,7 @@ export async function handleDbTableAdminModule(context: DbCommandoContext): Prom
       const tableSelectResult = await select({
         message: `Select a table`,
         options: tables.map((table) => {
-          return { value: table, label: `${table.name}...` };
+          return { value: table, label: `${c.italic(table.name)}...` };
         }),
       });
 
@@ -29,16 +30,17 @@ export async function handleDbTableAdminModule(context: DbCommandoContext): Prom
         const table = tableSelectResult.value;
 
         while (true) {
-          const menuSelectResult = await select({
+          const { canceled, value: menuItem } = await select({
             message: `Select an option`,
-            options: DB_TABLE_MENU_OPTIONS,
+            options: DB_TABLE_ADMIN_MENU_OPTIONS,
           });
 
-          if (menuSelectResult.canceled || menuSelectResult.value.key === EDbTableAdminMenuKey.BACK) {
+          if (canceled || menuItem.key === EDbTableAdminMenuKey.BACK) {
             break;
           }
-          else if (menuSelectResult.value.module) {
-            await menuSelectResult.value.module(context, table);
+
+          if (menuItem.module) {
+            await menuItem.module(context, table);
           }
           else {
             await message(`Unsupported option`, { as: `danger` });

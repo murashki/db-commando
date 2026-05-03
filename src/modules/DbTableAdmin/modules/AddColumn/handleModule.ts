@@ -110,7 +110,7 @@ export async function handleAddColumnModule(context: DbCommandoContext, table: D
 
     if (queryConfirmed) {
       try {
-        await context.dbClient.query(query);
+        await context.dbConnection.query(query);
       }
       catch (error) {
         await updateExecutedDbQueryLogFile(context, {

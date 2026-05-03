@@ -20,7 +20,7 @@ export async function handleExecQueryModule(context: DbCommandoContext) {
       lastQuery = queryTextResult.value;
 
       try {
-        const result = await context.dbClient.query(lastQuery);
+        const result = await context.dbConnection.query(lastQuery);
         await message(`Successfully executed`, { as: `success` });
         await plainObjectTable(result.rows);
       }

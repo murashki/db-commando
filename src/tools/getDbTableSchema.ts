@@ -1,9 +1,9 @@
 import pg from 'pg';
 import type { ColumnType } from '../@types/ColumnType.ts';
-import type { DbClient } from '../@types/DbClient.ts';
 import type { DbColumnSchema } from '../@types/DbColumnSchema.ts';
 import type { DbColumnValue } from '../@types/DbColumnValue.ts';
 import type { DbCommandoContext } from '../@types/DbCommandoContext.ts';
+import type { DbConnection } from '../@types/DbConnection.ts';
 import { EPgKeywords } from '../@types/EPgKeywords.ts';
 import { parse } from './defaultValueParser/index.ts';
 import { arrayColumnType } from './arrayColumnType.ts';
@@ -153,7 +153,7 @@ export async function getDbTableSchema(context: DbCommandoContext, tableName: st
     ORDER BY "primaryKey" DESC, "name" ASC;
   `;
 
-  const result = await context.dbClient.query(query);
+  const result = await context.dbConnection.query(query);
 
   const rows: DbColumnSchema[] = [];
 
@@ -176,13 +176,13 @@ export async function getDbTableSchema(context: DbCommandoContext, tableName: st
       const preparedArrayMemberPgTypeIn = memberType.pgTypeIn.replace(`#`, lengthText);
       preparedPgTypeIn = columnType.pgTypeIn.replace(`*`, preparedArrayMemberPgTypeIn);
       defaultValue = defaultValue
-        ? await Promise.all((defaultValue as any[]).map((value) => getTypedDefaultValue(value, memberType, context.dbClient, preparedArrayMemberPgTypeIn)))
+        ? await Promise.all((defaultValue as any[]).map((value) => getTypedDefaultValue(value, memberType, preparedArrayMemberPgTypeIn, context)))
         : defaultValue;
     }
     else {
       preparedLabelOut = columnType.labelOut.replace(`#`, lengthText);
       preparedPgTypeIn = columnType.pgTypeIn.replace(`#`, lengthText);
-      defaultValue = await getTypedDefaultValue(defaultValue, columnType, context.dbClient, preparedPgTypeIn);
+      defaultValue = await getTypedDefaultValue(defaultValue, columnType, preparedPgTypeIn, context);
     }
 
     rows.push({
@@ -197,7 +197,7 @@ export async function getDbTableSchema(context: DbCommandoContext, tableName: st
   return rows;
 }
 
-async function getTypedDefaultValue(defaultValue: any, columnType: ColumnType, dbClient: DbClient, preparedPgTypeIn: string) {
+async function getTypedDefaultValue(defaultValue: any, columnType: ColumnType, preparedPgTypeIn: string, context: DbCommandoContext) {
   if (typeof defaultValue === `string`) {
     switch (columnType.labelIn) {
       // Types that PG returns as a non-string (e.g. number or Date), or that the user can
@@ -210,7 +210,7 @@ async function getTypedDefaultValue(defaultValue: any, columnType: ColumnType, d
       case EPgKeywords.TIME_WITHOUT_TIME_ZONE_LABEL_IN:
       case EPgKeywords.TIMESTAMP_WITH_TIME_ZONE_LABEL_IN:
       case EPgKeywords.TIMESTAMP_WITHOUT_TIME_ZONE_LABEL_IN: {
-        return (await dbClient.query<{ value: string }>(`SELECT ${pg.escapeLiteral(defaultValue)}::${preparedPgTypeIn} AS value`)).rows[0].value;
+        return (await context.dbConnection.query<{ value: string }>(`SELECT ${pg.escapeLiteral(defaultValue)}::${preparedPgTypeIn} AS value`)).rows[0].value;
       }
       default: {
         return defaultValue;

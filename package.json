@@ -4,6 +4,9 @@
   "author": "Yakov Dalinchuk <yakov.dalinchuk@gmail.com>",
   "license": "MIT",
   "type": "module",
+  "engines": {
+    "node": ">=20.11.0"
+  },
   "exports": {
     ".": {
       "import": "./dist/esm/index.js",
@@ -36,7 +39,7 @@
     "clear-dist": "rm -rf dist",
     "examples:run": "tsx --tsconfig ./tsconfig.json ./examples/index.ts",
     "prepublishOnly": "npm run build",
-    "ts-lint:watch": "npx tsc --noEmit --watch --project ./tsconfig.json"
+    "ts-lint:watch": "tsc --noEmit --watch --project ./tsconfig.json"
   },
   "dependencies": {
     "pg": "^8.20.0",

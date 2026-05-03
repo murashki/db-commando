@@ -1,7 +1,7 @@
 import type { DbCommandoContext } from '../@types/DbCommandoContext.ts';
 
 export async function getTableNames(context: DbCommandoContext): Promise<string[]> {
-  const result = await context.dbClient.query<{ tableName: string }>(`
+  const result = await context.dbConnection.query<{ tableName: string }>(`
     SELECT "tablename" AS "tableName"
     FROM "pg_catalog"."pg_tables"
     WHERE "schemaname" NOT IN ('information_schema', 'pg_catalog');

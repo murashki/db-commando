@@ -25,13 +25,13 @@ export enum EDbTableAdminMenuKey {
   VIEW_TABLE_SCHEMA = `VIEW_TABLE_SCHEMA`,
 }
 
-type DbTableMenuItem = {
+type DbTableAdminMenuItem = {
   key: string;
   label: string;
   module?: (context: DbCommandoContext, table: DbTable) => Promise<any>;
 };
 
-export const DB_TABLE_MENU_OPTIONS = getCommonMenuOptions<DbTableMenuItem>([
+export const DB_TABLE_ADMIN_MENU_OPTIONS = getCommonMenuOptions<DbTableAdminMenuItem>([
   {
     key: EDbTableAdminMenuKey.VIEW_TABLE_SCHEMA,
     label: `View table schema`,

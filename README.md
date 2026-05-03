@@ -1,9 +1,9 @@
-# proprompt
+# db-commando
 
 ## Installation
 
 ```bash
-npm install proprompt
+npm install db-commando
 ```
 
 ## License
