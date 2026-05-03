@@ -10,6 +10,7 @@ export * from './DbColumnScalarValue.ts';
 export * from './DbColumnSchema.ts';
 export * from './DbColumnSpecialValue.ts';
 export * from './DbColumnValue.ts';
+export * from './DbCommandoConfig.ts';
 export * from './DbCommandoContext.ts';
 export * from './DbConnection.ts';
 export * from './EPgKeywords.ts';
