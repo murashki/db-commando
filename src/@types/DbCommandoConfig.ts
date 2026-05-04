@@ -5,6 +5,6 @@ export type DbCommandoConfig = {
   dbConnection: DbConnection;
   environment: string;
   masterMode: boolean;
-  systemFolder?: string;
+  systemDir?: string;
   tableConfigs?: Record<string, DbTableConfig>;
 };

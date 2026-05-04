@@ -9,7 +9,7 @@ import { printDbTable } from '../../../../dbTableConstructor/printDbTable.ts';
 export async function handlePredefinedViewRecordsWithCustomQueryModule(context: DbCommandoContext, table: DbTable): Promise<void> {
   if (table.config) {
     const query = getQuery(table.config) + `\n`;
-    const nextQuery = await editFile(`${context.systemFolder}/${QUERY_EDIT_FILE_NAME}`, {
+    const nextQuery = await editFile(`${context.systemDir}/${QUERY_EDIT_FILE_NAME}`, {
       temporary: true,
       content: query,
     });

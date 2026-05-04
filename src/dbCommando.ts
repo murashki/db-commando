@@ -7,17 +7,17 @@ import { EDbCommandoMenuKey } from './menu.ts';
 import { DB_COMMANDO_MENU_OPTIONS } from './menu.ts';
 
 export async function dbCommando(config: DbCommandoConfig): Promise<void> {
-  const systemFolder = context.systemFolder || `./.db-commando`;
-  const tableConfigs = context.tableConfigs || {};
+  const systemDir = config.systemDir || `./.db-commando`;
+  const tableConfigs = config.tableConfigs || {};
 
   const context: DbCommandoContext = {
     ...config,
-    systemFolder,
+    systemDir,
     tableConfigs,
   };
 
-  if ( ! fs.existsSync(systemFolder)) {
-    fs.mkdirSync(systemFolder, { recursive: true });
+  if ( ! fs.existsSync(systemDir)) {
+    fs.mkdirSync(systemDir, { recursive: true });
   }
 
   while (true) {
