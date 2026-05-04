@@ -1,7 +1,7 @@
 import type { ColumnType } from '../../@types/ColumnType.ts';
 import type { DbColumnValue } from '../../@types/DbColumnValue.ts';
 
-export type EnterColumnValueProps = {
+export type EnterColumnValueOpts = {
   arrayMemberIndex?: number;
   columnName?: string;
   columnType: ColumnType;

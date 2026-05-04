@@ -4,7 +4,6 @@ import type { DbConnection } from './DbConnection.ts';
 export type DbCommandoConfig = {
   dbConnection: DbConnection;
   environment: string;
-  masterMode: boolean;
   systemDir?: string;
   tableConfigs?: Record<string, DbTableConfig>;
 };

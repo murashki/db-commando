@@ -1,5 +1,5 @@
 import c from 'chalk';
-import type { StringifyProps } from 'proprompt';
+import type { StringifyOpts } from 'proprompt';
 import { line } from 'proprompt';
 import { message } from 'proprompt';
 import { table } from 'proprompt';
@@ -40,7 +40,7 @@ export async function printDbTable<
           title: title || columnName,
         };
 
-        const stringifyProps: StringifyProps = {
+        const stringifyOpts: StringifyOpts = {
           depth: Infinity,
           inline: true,
           primitivesUppercase: true,
@@ -54,7 +54,7 @@ export async function printDbTable<
         }
         else {
           render = (item: TDbItem) => {
-            return stringify(item[columnName], stringifyProps);
+            return stringify(item[columnName], stringifyOpts);
           };
         }
 
@@ -62,14 +62,14 @@ export async function printDbTable<
           if (isDbTableStringReplaceMapRender(columnRender)) {
             render = (item) => {
               return stringify(item[columnName], {
-                ...stringifyProps,
+                ...stringifyOpts,
                 specialValues: (value) => {
                   if (typeof value === `string`) {
                     let nextValue = String(value);
                     if (nextValue in columnRender.replaceMap) {
                       nextValue = String(columnRender.replaceMap[nextValue]);
                     }
-                    return stringify(nextValue, stringifyProps);
+                    return stringify(nextValue, stringifyOpts);
                   }
                   else {
                     return null;
@@ -81,12 +81,12 @@ export async function printDbTable<
           else if (isDbTableStringReplaceRender(columnRender)) {
             render = (item) => {
               return stringify(item[columnName], {
-                ...stringifyProps,
+                ...stringifyOpts,
                 specialValues: (value) => {
                   if (typeof value === `string`) {
                     let nextValue = String(value);
                     nextValue = nextValue.replace(columnRender.pattern, columnRender.replacement);
-                    return stringify(nextValue, stringifyProps);
+                    return stringify(nextValue, stringifyOpts);
                   }
                   return null;
                 },
@@ -96,11 +96,11 @@ export async function printDbTable<
           else {
             render = (item) => {
               return stringify(item[columnName], {
-                ...stringifyProps,
+                ...stringifyOpts,
                 specialValues: (value) => {
                   if (typeof value === `string`) {
                     const nextValue = String(value);
-                    return stringify(nextValue, stringifyProps);
+                    return stringify(nextValue, stringifyOpts);
                   }
                   return null;
                 },

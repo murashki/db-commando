@@ -31,7 +31,7 @@ export type TravelerProgramDbRequest<
   TParams extends undefined | Record<string, any>,
   TResponse extends any,
 > = {
-  (db: DbClient, props: TParams): Promise<TResponse>;
+  (db: DbClient, params: TParams): Promise<TResponse>;
 };
 
 export type TravelerProgramConfig<

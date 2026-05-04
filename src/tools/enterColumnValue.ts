@@ -3,12 +3,12 @@ import { select } from 'proprompt';
 import { text } from 'proprompt';
 import type { DbColumnScalarValue } from '../@types/DbColumnScalarValue.ts';
 import type { DbColumnValue } from '../@types/DbColumnValue.ts';
-import type { EnterColumnValueProps } from './@types/EnterColumnValueProps.ts';
+import type { EnterColumnValueOpts } from './@types/EnterColumnValueOpts.ts';
 import { isNow } from './isNow.ts';
 
-export async function enterColumnValue(props: EnterColumnValueProps): Promise<DbColumnValue> {
-  if (props.columnType.isArray) {
-    const arrayLength = await enterArrayLength(props);
+export async function enterColumnValue(opts: EnterColumnValueOpts): Promise<DbColumnValue> {
+  if (opts.columnType.isArray) {
+    const arrayLength = await enterArrayLength(opts);
 
     if (arrayLength == null) {
       return null;
@@ -16,11 +16,11 @@ export async function enterColumnValue(props: EnterColumnValueProps): Promise<Db
     else {
       const values: DbColumnScalarValue[] = [];
       for (let i = 0; i < arrayLength; i ++ ) {
-        const memberType = props.columnType.memberType!;
-        const defaultValue = ((props.defaultValue ?? []) as any[])[i] ?? null;
+        const memberType = opts.columnType.memberType!;
+        const defaultValue = ((opts.defaultValue ?? []) as any[])[i] ?? null;
 
         values.push(await enterColumnScalarValue({
-          ...props,
+          ...opts,
           arrayMemberIndex: i,
           columnType: memberType,
           defaultValue,
@@ -31,37 +31,37 @@ export async function enterColumnValue(props: EnterColumnValueProps): Promise<Db
     }
   }
   else {
-    return await enterColumnScalarValue(props);
+    return await enterColumnScalarValue(opts);
   }
 }
 
-async function enterColumnScalarValue(props: EnterColumnValueProps): Promise<DbColumnScalarValue> {
+async function enterColumnScalarValue(opts: EnterColumnValueOpts): Promise<DbColumnScalarValue> {
   let message;
-  if (props.arrayMemberIndex == null) {
-    message = props.context === `value`
-      ? `Enter a value for \`${props.columnName}\` column ${c.gray(`(${props.preparedLabelOut})`)}`
+  if (opts.arrayMemberIndex == null) {
+    message = opts.context === `value`
+      ? `Enter a value for \`${opts.columnName}\` column ${c.gray(`(${opts.preparedLabelOut})`)}`
       : `Enter default value`;
   }
   else {
-    message = `Enter a value for element #${props.arrayMemberIndex}`;
+    message = `Enter a value for element #${opts.arrayMemberIndex}`;
   }
 
-  switch (props.columnType.editConfig?.controlType) {
+  switch (opts.columnType.editConfig?.controlType) {
     case `bigint`: {
       const defaultValueTextResult = await text({
         hints: [`Empty string evaluates to 0`],
-        initialValue: isNull(props) ? null : props.defaultValue == null ? `0` : String(props.defaultValue),
+        initialValue: isNull(opts) ? null : opts.defaultValue == null ? `0` : String(opts.defaultValue),
         message,
-        nullable: props.nullable,
+        nullable: opts.nullable,
         throwOnEsc: true,
       });
       return defaultValueTextResult.value == null ? null : BigInt(defaultValueTextResult.value);
     }
     case `boolean`: {
       const defaultValueSelectResult = await select({
-        initialValue: isNull(props) ? null : props.defaultValue == null ? true : Boolean(props.defaultValue),
+        initialValue: isNull(opts) ? null : opts.defaultValue == null ? true : Boolean(opts.defaultValue),
         message,
-        nullable: props.nullable,
+        nullable: opts.nullable,
         options: [
           { label: `TRUE`, value: true },
           { label: `FALSE`, value: false },
@@ -74,9 +74,9 @@ async function enterColumnScalarValue(props: EnterColumnValueProps): Promise<DbC
     case `datetime`: {
       const defaultValueTextResult = await text({
         hints: [`Empty string evaluates to \`NOW()\``],
-        initialValue: isNull(props) ? null : props.defaultValue == null ? `` : isNow(props.defaultValue) ? `` : props.defaultValue instanceof Date ? props.defaultValue.toISOString() : String(props.defaultValue),
+        initialValue: isNull(opts) ? null : opts.defaultValue == null ? `` : isNow(opts.defaultValue) ? `` : opts.defaultValue instanceof Date ? opts.defaultValue.toISOString() : String(opts.defaultValue),
         message,
-        nullable: props.nullable,
+        nullable: opts.nullable,
         throwOnEsc: true,
       });
       return defaultValueTextResult.value == null ? null : (defaultValueTextResult.value || { type: `NOW` });
@@ -84,18 +84,18 @@ async function enterColumnScalarValue(props: EnterColumnValueProps): Promise<DbC
     case `number`: {
       const defaultValueTextResult = await text({
         hints: [`Empty string evaluates to 0`],
-        initialValue: isNull(props) ? null : props.defaultValue == null ? `0` : String(props.defaultValue),
+        initialValue: isNull(opts) ? null : opts.defaultValue == null ? `0` : String(opts.defaultValue),
         message,
-        nullable: props.nullable,
+        nullable: opts.nullable,
         throwOnEsc: true,
       });
       return defaultValueTextResult.value == null ? null : Number(defaultValueTextResult.value);
     }
     case `text`: {
       const defaultValueTextResult = await text({
-        initialValue: isNull(props) ? null : props.defaultValue == null ? `` : String(props.defaultValue),
+        initialValue: isNull(opts) ? null : opts.defaultValue == null ? `` : String(opts.defaultValue),
         message,
-        nullable: props.nullable,
+        nullable: opts.nullable,
         throwOnEsc: true,
       });
       return defaultValueTextResult.value;
@@ -103,9 +103,9 @@ async function enterColumnScalarValue(props: EnterColumnValueProps): Promise<DbC
     case `time`: {
       const defaultValueTextResult = await text({
         hints: [`Empty string evaluates to \`NOW()\``],
-        initialValue: isNull(props) ? null : props.defaultValue == null ? `` : isNow(props.defaultValue) ? `` : String(props.defaultValue),
+        initialValue: isNull(opts) ? null : opts.defaultValue == null ? `` : isNow(opts.defaultValue) ? `` : String(opts.defaultValue),
         message,
-        nullable: props.nullable,
+        nullable: opts.nullable,
         throwOnEsc: true,
       });
       return defaultValueTextResult.value == null ? null : (defaultValueTextResult.value || { type: `NOW` });
@@ -116,14 +116,14 @@ async function enterColumnScalarValue(props: EnterColumnValueProps): Promise<DbC
   }
 }
 
-async function enterArrayLength(props: EnterColumnValueProps): Promise<null | number> {
-  const message = props.context === `value`
-    ? `Enter array length for \`${props.columnName}\` column ${c.gray(`(${props.preparedLabelOut})`)}`
+async function enterArrayLength(opts: EnterColumnValueOpts): Promise<null | number> {
+  const message = opts.context === `value`
+    ? `Enter array length for \`${opts.columnName}\` column ${c.gray(`(${opts.preparedLabelOut})`)}`
     : `Enter default value array length`;
-  const initialValue = isNull(props) ? null : String((props.defaultValue as any[]).length);
+  const initialValue = isNull(opts) ? null : String((opts.defaultValue as any[]).length);
 
   const hints = [`Empty string evaluates to 0`];
-  if (props.nullable) {
+  if (opts.nullable) {
     hints.push(`\`null\` evaluates to \`NULL\` column value`);
   }
 
@@ -131,14 +131,14 @@ async function enterArrayLength(props: EnterColumnValueProps): Promise<null | nu
     hints,
     initialValue,
     message,
-    nullable: props.nullable,
+    nullable: opts.nullable,
     throwOnEsc: true,
   });
   return arrayLengthTextResult.value == null ? null : Number(arrayLengthTextResult.value);
 }
 
-function isNull(props: EnterColumnValueProps): boolean {
-  return props.context === `default-value`
-    ? props.nullable && props.defaultValue == null
-    : props.defaultValue == null;
+function isNull(opts: EnterColumnValueOpts): boolean {
+  return opts.context === `default-value`
+    ? opts.nullable && opts.defaultValue == null
+    : opts.defaultValue == null;
 }
