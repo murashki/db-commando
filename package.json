@@ -43,7 +43,7 @@
   },
   "dependencies": {
     "pg": "^8.20.0",
-    "proprompt": "^0.1.8",
+    "proprompt": "^0.1.9",
     "sql-formatter": "^15.7.3",
     "sql-highlight": "^6.1.0"
   },
