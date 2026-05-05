@@ -8,5 +8,5 @@ export * from './@types/index.ts';
 // export * from './tools/index.ts';
 // export * from './travaler/index.ts';
 export * from './constants.ts';
-// export * from './menu.ts';
+export * from './menu.ts';
 export * from './dbCommando.ts';
