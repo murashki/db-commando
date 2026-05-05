@@ -1,13 +1,13 @@
 import fs from 'node:fs';
 import { message } from 'proprompt';
 import { select } from 'proprompt';
-import type { DbCommandoConfig } from './@types/DbCommandoConfig.ts';
+import type { DbCommandoBootstrapConfig } from './@types/DbCommandoBootstrapConfig.ts';
 import type { DbCommandoContext } from './@types/DbCommandoContext.ts';
 import { createDbClient } from './tools/dbClient.ts';
 import { EDbCommandoMenuKey } from './menu.ts';
 import { DB_COMMANDO_MENU_OPTIONS } from './menu.ts';
 
-export async function dbCommando(config: DbCommandoConfig): Promise<void> {
+export async function dbCommando(config: DbCommandoBootstrapConfig): Promise<void> {
   const dbClient = createDbClient(config.dbConfig);
   const environment = config.environment;
   const systemDir = config.systemDir || `./.db-commando`;
