@@ -1,6 +1,6 @@
 {
   "name": "db-commando",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "author": "Yakov Dalinchuk <yakov.dalinchuk@gmail.com>",
   "license": "MIT",
   "type": "module",
