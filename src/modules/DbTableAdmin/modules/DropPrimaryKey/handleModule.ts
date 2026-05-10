@@ -1,0 +1,80 @@
+import pg from 'pg';
+import { exception } from 'proprompt';
+import { message } from 'proprompt';
+import { TerminatedByEsc } from 'proprompt';
+import type { DbCommandoContext } from '../../../../@types/DbCommandoContext.ts';
+import type { DbTable } from '../../../../dbTableConstructor/@types/DbTable.ts';
+import { confirmDbQuery } from '../../../../tools/confirmDbQuery.ts';
+import { getDbTableSchema } from '../../../../tools/getDbTableSchema.ts';
+import { printDbTableSchema } from '../../../../tools/printDbTableSchema.ts';
+import { updateExecutedDbQueryLogFile } from '../../../../tools/updateExecutedDbQueryLogFile.ts';
+
+export async function handleDropPrimaryKeyModule(context: DbCommandoContext, table: DbTable): Promise<void> {
+  const dbTableSchema = await getDbTableSchema(context, table.name);
+
+  if (dbTableSchema.length === 0) {
+    await message(`No columns found`, { as: `warning` });
+    return;
+  }
+
+  const existingPrimaryKey = dbTableSchema.find((col) => col.primaryKey);
+
+  if ( ! existingPrimaryKey) {
+    await message(`Table has no primary key`, { as: `warning` });
+    return;
+  }
+
+  const constraintName = await getPrimaryKeyConstraintName(context, table.name);
+
+  const query = buildQuery({
+    constraintName,
+    tableName: table.name,
+  });
+
+  const queryConfirmed = await confirmDbQuery(query, context);
+
+  if (queryConfirmed) {
+    try {
+      await context.dbConnection.query(query);
+      await message(`Successfully executed`, { as: `success` });
+      await updateExecutedDbQueryLogFile(context, {
+        query,
+        status: `success`,
+      });
+      await printDbTableSchema(context, table.name);
+    }
+    catch (error) {
+      await updateExecutedDbQueryLogFile(context, {
+        query,
+        status: `error`,
+      });
+      await exception(error, { message: `There was a problem during the query execution:` });
+    }
+  }
+}
+
+async function getPrimaryKeyConstraintName(context: DbCommandoContext, tableName: string): Promise<string> {
+  const result = await context.dbConnection.query<{ constraintName: string }>(`
+    SELECT "constraint_name" AS "constraintName"
+    FROM "information_schema"."table_constraints"
+    WHERE TRUE
+      AND "table_schema" = 'public'
+      AND "table_name" = ${pg.escapeLiteral(tableName)}
+      AND "constraint_type" = 'PRIMARY KEY'
+    LIMIT 1;
+  `);
+
+  return result.rows[0].constraintName;
+}
+
+type BuildQueryParams = {
+  constraintName: string;
+  tableName: string;
+};
+
+function buildQuery(params: BuildQueryParams) {
+  return `
+    ALTER TABLE "public".${pg.escapeIdentifier(params.tableName)}
+    DROP CONSTRAINT ${pg.escapeIdentifier(params.constraintName)};
+  `;
+}

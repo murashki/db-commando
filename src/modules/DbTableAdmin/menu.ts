@@ -2,7 +2,9 @@ import type { DbCommandoContext } from '../../@types/DbCommandoContext.ts';
 import type { DbTable } from '../../dbTableConstructor/@types/DbTable.ts';
 import { getCommonMenuOptions } from '../../tools/getCommonMenuOptions.ts';
 import { handleAddColumnModule } from './modules/AddColumn/handleModule.ts';
+import { handleAddPrimaryKeyModule } from './modules/AddPrimaryKey/handleModule.ts';
 import { handleDropColumnModule } from './modules/DropColumn/handleModule.ts';
+import { handleDropPrimaryKeyModule } from './modules/DropPrimaryKey/handleModule.ts';
 import { handleInsertIntoTableModule } from './modules/InsertIntoTable/handleModule.ts';
 import { handlePredefinedViewRecordsModule } from './modules/PredefinedViewRecords/handleModule.ts';
 import { handlePredefinedViewRecordsWithCustomQueryModule } from './modules/PredefinedViewRecordsWithCustomQuery/handleModule.ts';
@@ -13,8 +15,10 @@ import { handleViewTableSchemaModule } from './modules/ViewTableSchema/handleMod
 
 export enum EDbTableAdminMenuKey {
   ADD_COLUMN = `ADD_COLUMN`,
+  ADD_PRIMARY_KEY = `ADD_PRIMARY_KEY`,
   BACK = `BACK`,
   DROP_COLUMN = `DROP_COLUMN`,
+  DROP_PRIMARY_KEY = `DROP_PRIMARY_KEY`,
   DUMP_TABLE_SCHEMA = `DUMP_TABLE_SCHEMA`,
   INSERT_INTO_TABLE = `INSERT_INTO_TABLE`,
   PREDEFINED_VIEW_RECORDS = `PREDEFINED_VIEW_RECORDS`,
@@ -71,6 +75,16 @@ export const DB_TABLE_ADMIN_MENU_OPTIONS = getCommonMenuOptions<DbTableAdminMenu
     key: EDbTableAdminMenuKey.DROP_COLUMN,
     label: `Drop column...`,
     module: handleDropColumnModule,
+  },
+  {
+    key: EDbTableAdminMenuKey.ADD_PRIMARY_KEY,
+    label: `Add primary key...`,
+    module: handleAddPrimaryKeyModule,
+  },
+  {
+    key: EDbTableAdminMenuKey.DROP_PRIMARY_KEY,
+    label: `Drop primary key...`,
+    module: handleDropPrimaryKeyModule,
   },
   {
     key: EDbTableAdminMenuKey.INSERT_INTO_TABLE,

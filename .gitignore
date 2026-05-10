@@ -13,10 +13,10 @@ yarn-error.log*
 .db-commando
 dev-config.local.json
 dist
-dist-ssr
 node_modules
 
 # Editor directories and files
+!.vscode/extensions.json
 *.njsproj
 *.ntvs*
 *.sln
@@ -25,7 +25,6 @@ node_modules
 .DS_Store
 .idea
 .vscode/*
-!.vscode/extensions.json
 
 # AI
 .claude

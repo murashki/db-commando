@@ -11,7 +11,8 @@ import type { DbCommandoContext } from '../../../../@types/DbCommandoContext.ts'
 import type { DbTable } from '../../../../dbTableConstructor/@types/DbTable.ts';
 import { columnTypes } from '../../../../tools/columnTypes.ts';
 import { confirmDbQuery } from '../../../../tools/confirmDbQuery.ts';
-import { enterColumnValue } from '../../../../tools/enterColumnValue.ts';
+import { enterColumnArrayValue } from '../../../../tools/enterColumnArrayValue.ts';
+import { enterColumnScalarValue } from '../../../../tools/enterColumnScalarValue.ts';
 import { getArraySafeColumnType } from '../../../../tools/getArraySafeColumnType.ts';
 import { printDbTableSchema } from '../../../../tools/printDbTableSchema.ts';
 import { querifyValue } from '../../../../tools/querifyValue.ts';
@@ -84,17 +85,23 @@ export async function handleAddColumnModule(context: DbCommandoContext, table: D
     });
 
     let defaultValue: undefined | DbColumnValue;
-    if (columnType.editConfig?.controlType) {
-      defaultValue = await enterColumnValue({
-        columnType,
+    if (columnType.isArray) {
+      defaultValue = await enterColumnArrayValue({
+        columnType: arraySafeColumnType,
         context: `default-value`,
-        defaultValue: columnType.isArray ? [] : columnType.editConfig.defaultValue,
+        defaultValue: [],
         nullable,
         preparedLabelOut,
       });
     }
-    else if (columnType.editConfig?.defaultValue) {
-      defaultValue = columnType.editConfig.defaultValue;
+    else {
+      defaultValue = await enterColumnScalarValue({
+        columnType: arraySafeColumnType,
+        context: `default-value`,
+        defaultValue: Array.isArray(arraySafeColumnType.editConfig) ? null : arraySafeColumnType.editConfig!.defaultValue,
+        nullable,
+        preparedLabelOut,
+      });
     }
 
     const query = buildQuery({

@@ -2,11 +2,14 @@ import pg from 'pg';
 import { exception } from 'proprompt';
 import { message } from 'proprompt';
 import { TerminatedByEsc } from 'proprompt';
+import type { DbColumnScalarValue } from '../../../../@types/DbColumnScalarValue.ts';
 import type { DbColumnValue } from '../../../../@types/DbColumnValue.ts';
 import type { DbCommandoContext } from '../../../../@types/DbCommandoContext.ts';
 import type { DbTable } from '../../../../dbTableConstructor/@types/DbTable.ts';
 import { confirmDbQuery } from '../../../../tools/confirmDbQuery.ts';
-import { enterColumnValue } from '../../../../tools/enterColumnValue.ts';
+import { enterColumnArrayValue } from '../../../../tools/enterColumnArrayValue.ts';
+import { enterColumnScalarValue } from '../../../../tools/enterColumnScalarValue.ts';
+import { getArraySafeColumnType } from '../../../../tools/getArraySafeColumnType.ts';
 import { getDbTableSchema } from '../../../../tools/getDbTableSchema.ts';
 import { querifyValue } from '../../../../tools/querifyValue.ts';
 import { updateExecutedDbQueryLogFile } from '../../../../tools/updateExecutedDbQueryLogFile.ts';
@@ -21,12 +24,29 @@ export async function handleInsertIntoTableModule(context: DbCommandoContext, ta
     try {
       const values: QueryValue[] = [];
       for (const item of dbTableSchema) {
-        if (item.columnType.editConfig?.controlType) {
-          const value = await enterColumnValue({
+        const arraySafeColumnType = getArraySafeColumnType(item.columnType);
+
+        if (item.columnType.isArray) {
+          const value = await enterColumnArrayValue({
             columnName: item.name,
-            columnType: item.columnType,
+            columnType: arraySafeColumnType,
             context: `value`,
-            defaultValue: item.defaultValue,
+            defaultValue: item.defaultValue as null | (null | DbColumnScalarValue[]),
+            nullable: item.nullable,
+            preparedLabelOut: item.preparedLabelOut,
+          });
+          values.push({
+            columnName: item.name,
+            preparedPgTypeIn: item.preparedPgTypeIn,
+            value,
+          });
+        }
+        else {
+          const value = await enterColumnScalarValue({
+            columnName: item.name,
+            columnType: arraySafeColumnType,
+            context: `value`,
+            defaultValue: item.defaultValue as null | DbColumnScalarValue,
             nullable: item.nullable,
             preparedLabelOut: item.preparedLabelOut,
           });

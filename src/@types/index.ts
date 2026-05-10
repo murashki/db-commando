@@ -15,6 +15,7 @@ export * from './DbCommandoContext.ts';
 export * from './DbConnection.ts';
 export * from './EPgKeywords.ts';
 export * from './EditConfig.ts';
+export * from './EditConfigOption.ts';
 export * from './EditControlType.ts';
 export * from './MenuItem.ts';
 export * from './MenuOption.ts';

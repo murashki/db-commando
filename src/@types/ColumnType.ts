@@ -1,5 +1,6 @@
 import type { ColumnTypeSpec } from './ColumnTypeSpec.ts';
 import type { EditConfig } from './EditConfig.ts';
+import type { EditConfigOption } from './EditConfigOption.ts';
 import type { ViewConfig } from './ViewConfig.ts';
 
 export type ColumnType = {
@@ -9,7 +10,7 @@ export type ColumnType = {
   /**
    * The control used for user input. Absent for arrays — use `memberType.editConfig` instead.
    */
-  editConfig?: EditConfig;
+  editConfig?: EditConfig | EditConfigOption[];
 
   isArray?: boolean;
 

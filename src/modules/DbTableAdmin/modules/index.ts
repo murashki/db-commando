@@ -1,5 +1,7 @@
 export * from './AddColumn/index.ts';
+export * from './AddPrimaryKey/index.ts';
 export * from './DropColumn/index.ts';
+export * from './DropPrimaryKey/index.ts';
 // export * from './DumpTableSchema/index.ts';
 export * from './InsertIntoTable/index.ts';
 export * from './PredefinedViewRecords/index.ts';

@@ -1,3 +1,4 @@
+import c from 'chalk';
 import type { ColumnType } from '../@types/ColumnType.ts';
 import { EPgKeywords } from '../@types/EPgKeywords.ts';
 import { DB_TABLE } from '../dbTableConstructor/DB_TABLE.ts';
@@ -7,9 +8,17 @@ export const columnTypes: ColumnType[] = [
   arrayColumnType,
   {
     arrayEligible: true,
-    editConfig: {
-      defaultValue: { type: `GEN_RANDOM_UUID` },
-    },
+    editConfig: [
+      {
+        controlType: `text`,
+        defaultValue: ``,
+        label: `Manual input`,
+      },
+      {
+        defaultValue: { type: `GEN_RANDOM_UUID` },
+        label: c.italic(`GEN_RANDOM_UUID()`),
+      }
+    ],
     labelIn: EPgKeywords.UUID_LABEL_IN,
     labelOut: EPgKeywords.UUID_LABEL_OUT,
     nullability: false,
@@ -17,7 +26,7 @@ export const columnTypes: ColumnType[] = [
     pgTypeOut: EPgKeywords.UUID_PG_TYPE_OUT,
     viewConfig: {
       dataType: DB_TABLE.COLUMN.TYPE.UUID,
-      maxWidth: 36,
+      maxWidth: 38,
     },
   },
   {
@@ -153,7 +162,6 @@ export const columnTypes: ColumnType[] = [
     arrayEligible: false,
     desc: `2 bytes, 1 to 32767`,
     editConfig: {
-      controlType: `number`,
       defaultValue: null,
     },
     labelIn: EPgKeywords.SMALLSERIAL_LABEL_IN,
@@ -170,7 +178,6 @@ export const columnTypes: ColumnType[] = [
     arrayEligible: false,
     desc: `4 bytes, 1 to 2147483647`,
     editConfig: {
-      controlType: `number`,
       defaultValue: null,
     },
     labelIn: EPgKeywords.SERIAL_LABEL_IN,
@@ -187,7 +194,6 @@ export const columnTypes: ColumnType[] = [
     arrayEligible: false,
     desc: `8 bytes, 1 to 9223372036854775807`,
     editConfig: {
-      controlType: `bigint`,
       defaultValue: null,
     },
     labelIn: EPgKeywords.BIGSERIAL_LABEL_IN,
@@ -204,7 +210,7 @@ export const columnTypes: ColumnType[] = [
     arrayEligible: true,
     editConfig: {
       controlType: `text`,
-      defaultValue: null,
+      defaultValue: ``,
     },
     labelIn: EPgKeywords.CHAR_LABEL_IN,
     labelOut: EPgKeywords.CHAR_LABEL_OUT,
@@ -226,7 +232,7 @@ export const columnTypes: ColumnType[] = [
     arrayEligible: true,
     editConfig: {
       controlType: `text`,
-      defaultValue: null,
+      defaultValue: ``,
     },
     labelIn: EPgKeywords.VARCHAR_LABEL_IN,
     labelOut: EPgKeywords.VARCHAR_LABEL_OUT,
@@ -248,7 +254,7 @@ export const columnTypes: ColumnType[] = [
     arrayEligible: true,
     editConfig: {
       controlType: `text`,
-      defaultValue: null,
+      defaultValue: ``,
     },
     labelIn: EPgKeywords.TEXT_LABEL_IN,
     labelOut: EPgKeywords.TEXT_LABEL_OUT,
