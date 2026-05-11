@@ -9,7 +9,7 @@ import { printDbQuery } from '../../tools/printDbQuery.ts';
 import { QUERY_EXECUTION_HISTORY_FILE_NAME } from '../../constants.ts';
 
 export async function handleQueryExecHistoryModule(context: DbCommandoContext): Promise<void> {
-  const filePath = `${context.systemDir}/${QUERY_EXECUTION_HISTORY_FILE_NAME}`;
+  const filePath = `${context.dbCommandoConfig.systemDir}/${QUERY_EXECUTION_HISTORY_FILE_NAME}`;
   let queryHistory: QueryExecutionEvent[] = [];
   if (fs.existsSync(filePath)) {
     const content = fs.readFileSync(filePath, { encoding: `utf8` });

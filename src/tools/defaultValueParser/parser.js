@@ -287,7 +287,7 @@ function peg$parse(input, options) {
     return { type: "AUTO_INCREMENT" }
   }
   function peg$f9() {
-    return { type: "UUID()" }
+    return { type: "GEN_RANDOM_UUID" }
   }
   function peg$f10(boolean) {
     return boolean;
@@ -299,7 +299,7 @@ function peg$parse(input, options) {
     return sequence;
   }
   function peg$f13() {
-    return { type: "NOW()" };
+    return { type: "NOW" };
   }
   function peg$f14(content) {
     return content;

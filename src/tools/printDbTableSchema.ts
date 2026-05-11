@@ -6,7 +6,8 @@ import { table } from 'proprompt';
 import type { DbColumnSchema } from '../@types/DbColumnSchema.ts';
 import type { DbCommandoContext } from '../@types/DbCommandoContext.ts';
 import { getDbTableSchema } from './getDbTableSchema.ts';
-import { isSpecialValue } from './isSpecialValue.ts';
+import { isGenRandomUuid } from './isGenRandomUuid';
+import { isNow } from './isNow';
 
 export async function printDbTableSchema(context: DbCommandoContext, tableName: string) {
   const dbTableSchema = await getDbTableSchema(context, tableName);
@@ -52,8 +53,11 @@ const columns: TableColumn<DbColumnSchema>[] = [
         inline: true,
         primitivesUppercase: true,
         specialValues: (value: any) => {
-          if (isSpecialValue(value)) {
-            return c.yellow(value.type);
+          if (isGenRandomUuid(value)) {
+            return c.yellow(`GEN_RANDOM_UUID()`);
+          }
+          else if (isNow(value)) {
+            return c.yellow(`NOW()`);
           }
           else {
             return null;

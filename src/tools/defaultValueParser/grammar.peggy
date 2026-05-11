@@ -146,7 +146,7 @@ AutoIncrement
 GenRandomUuid
   = "gen_random_uuid"i i_parenL i_parenR
   {
-    return { type: "UUID()" }
+    return { type: "GEN_RANDOM_UUID" }
   }
 
 Boolean
@@ -183,7 +183,7 @@ Entry
 Now
   = NowContent (i_doubleColon i_textCast)?
   {
-    return { type: "NOW()" };
+    return { type: "NOW" };
   }
 
 NowContent

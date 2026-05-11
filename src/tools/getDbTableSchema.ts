@@ -176,13 +176,13 @@ export async function getDbTableSchema(context: DbCommandoContext, tableName: st
       const preparedArrayMemberPgTypeIn = memberType.pgTypeIn.replace(`#`, lengthText);
       preparedPgTypeIn = columnType.pgTypeIn.replace(`*`, preparedArrayMemberPgTypeIn);
       defaultValue = defaultValue
-        ? await Promise.all((defaultValue as any[]).map((value) => getTypedDefaultValue(value, memberType, preparedArrayMemberPgTypeIn, context)))
+        ? await Promise.all((defaultValue as any[]).map((value) => getTypedDefaultValue(value, preparedArrayMemberPgTypeIn, context)))
         : defaultValue;
     }
     else {
       preparedLabelOut = columnType.labelOut.replace(`#`, lengthText);
       preparedPgTypeIn = columnType.pgTypeIn.replace(`#`, lengthText);
-      defaultValue = await getTypedDefaultValue(defaultValue, columnType, preparedPgTypeIn, context);
+      defaultValue = await getTypedDefaultValue(defaultValue, preparedPgTypeIn, context);
     }
 
     rows.push({
@@ -197,25 +197,9 @@ export async function getDbTableSchema(context: DbCommandoContext, tableName: st
   return rows;
 }
 
-async function getTypedDefaultValue(defaultValue: any, columnType: ColumnType, preparedPgTypeIn: string, context: DbCommandoContext) {
+async function getTypedDefaultValue(defaultValue: any, preparedPgTypeIn: string, context: DbCommandoContext) {
   if (typeof defaultValue === `string`) {
-    switch (columnType.labelIn) {
-      // Types that PG returns as a non-string (e.g. number or Date), or that the user can
-      // transform via `types.setTypeParser` when using the `pg` library.
-      case EPgKeywords.DOUBLE_PRECISION_LABEL_IN:
-      case EPgKeywords.INT_LABEL_IN:
-      case EPgKeywords.REAL_LABEL_IN:
-      case EPgKeywords.SMALLINT_LABEL_IN:
-      case EPgKeywords.TIME_WITH_TIME_ZONE_LABEL_IN:
-      case EPgKeywords.TIME_WITHOUT_TIME_ZONE_LABEL_IN:
-      case EPgKeywords.TIMESTAMP_WITH_TIME_ZONE_LABEL_IN:
-      case EPgKeywords.TIMESTAMP_WITHOUT_TIME_ZONE_LABEL_IN: {
-        return (await context.dbConnection.query<{ value: string }>(`SELECT ${pg.escapeLiteral(defaultValue)}::${preparedPgTypeIn} AS value`)).rows[0].value;
-      }
-      default: {
-        return defaultValue;
-      }
-    }
+    return (await context.dbConnection.query<{ value: string }>(`SELECT ${pg.escapeLiteral(defaultValue)}::${preparedPgTypeIn} AS value`)).rows[0].value;
   }
   else {
     return defaultValue;

@@ -1,1 +1,1 @@
-// export * from './handleModule.ts';
+export * from './handleModule.ts';

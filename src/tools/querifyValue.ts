@@ -21,6 +21,9 @@ export function querifyValue(value: DbColumnValue, preparedPgTypeIn?: string): s
   else if (typeof value === `string`) {
     queryValue = pg.escapeLiteral(value);
   }
+  else if (value instanceof Date) {
+    return `'${value.toISOString()}'`;
+  }
   else if (Array.isArray(value)) {
     queryValue = (value as DbColumnValue[])
       .map((defaultValue) => {
@@ -36,7 +39,7 @@ export function querifyValue(value: DbColumnValue, preparedPgTypeIn?: string): s
     queryValue = `GEN_RANDOM_UUID()`;
   }
   else {
-    queryValue = String(value);
+    throw new Error(`Unsupported value: ${value}`);
   }
 
   if (preparedPgTypeIn && value != null) {

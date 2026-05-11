@@ -9,17 +9,19 @@ import { DB_COMMANDO_MENU_OPTIONS } from './menu.ts';
 
 export async function dbCommando(config: DbCommandoBootstrapConfig): Promise<void> {
   const dbClient = createDbClient(config.dbConfig);
-  const environment = config.environment;
   const systemDir = config.systemDir || `./.db-commando`;
-  const tableConfigs = config.tableConfigs || {};
 
   dbClient.connect();
 
   const context: DbCommandoContext = {
+    dbCommandoConfig: {
+      __dbCommandoBootstrapConfig: config,
+      dbConfig: config.dbConfig,
+      environment: config.environment,
+      systemDir,
+      tableConfigs: config.tableConfigs || {},
+    },
     dbConnection: dbClient,
-    environment,
-    systemDir,
-    tableConfigs,
   };
 
   if ( ! fs.existsSync(systemDir)) {

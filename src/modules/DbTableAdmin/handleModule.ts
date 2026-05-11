@@ -55,7 +55,7 @@ async function getTables(context: DbCommandoContext): Promise<DbTable<any>[]> {
   const tableNames = await getTableNames(context);
 
   return tableNames.map((tableName) => {
-    const tableConfig = context.tableConfigs[tableName];
+    const tableConfig = context.dbCommandoConfig.tableConfigs[tableName];
     return {
       name: tableName,
       config: tableConfig,

@@ -5,6 +5,7 @@ import { handleAddColumnModule } from './modules/AddColumn/handleModule.ts';
 import { handleAddPrimaryKeyModule } from './modules/AddPrimaryKey/handleModule.ts';
 import { handleDropColumnModule } from './modules/DropColumn/handleModule.ts';
 import { handleDropPrimaryKeyModule } from './modules/DropPrimaryKey/handleModule.ts';
+import { handleDumpTableSchemaModule } from './modules/DumpTableSchema/handleModule.ts';
 import { handleInsertIntoTableModule } from './modules/InsertIntoTable/handleModule.ts';
 import { handlePredefinedViewRecordsModule } from './modules/PredefinedViewRecords/handleModule.ts';
 import { handlePredefinedViewRecordsWithCustomQueryModule } from './modules/PredefinedViewRecordsWithCustomQuery/handleModule.ts';
@@ -41,11 +42,11 @@ export const DB_TABLE_ADMIN_MENU_OPTIONS = getCommonMenuOptions<DbTableAdminMenu
     label: `View table schema`,
     module: handleViewTableSchemaModule,
   },
-  // {
-  //   key: EDdTableMenuKey.DUMP_TABLE_SCHEMA,
-  //   label: `Dump table schema`,
-  //   module: handleDumpTableSchemaModule,
-  // },
+  {
+    key: EDbTableAdminMenuKey.DUMP_TABLE_SCHEMA,
+    label: `Dump table schema`,
+    module: handleDumpTableSchemaModule,
+  },
   {
     key: EDbTableAdminMenuKey.VIEW_RECORDS,
     label: `View records`,

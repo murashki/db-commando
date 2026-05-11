@@ -3,6 +3,7 @@ import type { ColumnType } from '../@types/ColumnType.ts';
 import { EPgKeywords } from '../@types/EPgKeywords.ts';
 import { DB_TABLE } from '../dbTableConstructor/DB_TABLE.ts';
 import { arrayColumnType } from './arrayColumnType.ts';
+import { SpecialValues } from './specialValues.ts';
 
 export const columnTypes: ColumnType[] = [
   arrayColumnType,
@@ -15,13 +16,13 @@ export const columnTypes: ColumnType[] = [
         label: `Manual input`,
       },
       {
-        defaultValue: { type: `GEN_RANDOM_UUID` },
+        defaultValue: { type: SpecialValues.GEN_RANDOM_UUID },
         label: c.italic(`GEN_RANDOM_UUID()`),
       }
     ],
     labelIn: EPgKeywords.UUID_LABEL_IN,
     labelOut: EPgKeywords.UUID_LABEL_OUT,
-    nullability: false,
+    nullability: true,
     pgTypeIn: EPgKeywords.UUID_PG_TYPE_IN,
     pgTypeOut: EPgKeywords.UUID_PG_TYPE_OUT,
     viewConfig: {

@@ -9,6 +9,7 @@ import type { EnterColumnValueContext } from './@types/EnterColumnValueContext.t
 import type { EnterColumnScalarValueOpts } from './@types/EnterColumnScalarValueOpts.ts';
 import { acceptsNullInput } from './acceptsNullInput';
 import { isNow } from './isNow.ts';
+import { SpecialValues } from './specialValues.ts';
 
 export async function enterColumnScalarValue(opts: EnterColumnScalarValueOpts): Promise<null | DbColumnScalarValue> {
   let message;
@@ -33,8 +34,11 @@ export async function enterColumnScalarValue(opts: EnterColumnScalarValueOpts): 
         value: { defaultValue: editConfig.defaultValue, controlType: editConfig.controlType },
       };
     })
+
+    const message = opts.context === `default-value` ? `Provide default value as` : `Provide value as`;
+
     const { value: editConfig } = await select({
-      message: `Provide value as`,
+      message,
       options,
       throwOnEsc: true,
     });
@@ -83,7 +87,7 @@ export async function enterColumnScalarValue(opts: EnterColumnScalarValueOpts): 
         nullable: opts.nullable,
         throwOnEsc: true,
       });
-      return defaultValueTextResult.value == null ? null : (defaultValueTextResult.value || { type: `NOW` });
+      return defaultValueTextResult.value == null ? null : (defaultValueTextResult.value || { type: SpecialValues.NOW });
     }
     case `number`: {
       const defaultValueTextResult = await text({
@@ -112,7 +116,7 @@ export async function enterColumnScalarValue(opts: EnterColumnScalarValueOpts): 
         nullable: opts.nullable,
         throwOnEsc: true,
       });
-      return defaultValueTextResult.value == null ? null : (defaultValueTextResult.value || { type: `NOW` });
+      return defaultValueTextResult.value == null ? null : (defaultValueTextResult.value || { type: SpecialValues.NOW });
     }
     default: {
       throw new Error(`This shouldn't have happened`);

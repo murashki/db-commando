@@ -34,7 +34,7 @@ export async function confirmDbQuery(query: string, context: DbCommandoContext):
     return;
   }
   else if (confirmationSelectResult.value == null) {
-    return await editFile(`${context.systemDir}/${QUERY_EDIT_FILE_NAME}`, {
+    return await editFile(`${context.dbCommandoConfig.systemDir}/${QUERY_EDIT_FILE_NAME}`, {
       temporary: true,
       content: query,
     });

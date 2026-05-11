@@ -7,6 +7,7 @@ import type { DbColumnValue } from './DbColumnValue.ts';
 export type DbColumnSchema = {
   columnType: ColumnType;
   defaultValue: DbColumnValue;
+  defaultValueRaw: DbColumnValue;
   isArray: boolean;
 
   /**
