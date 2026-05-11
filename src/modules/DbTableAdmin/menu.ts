@@ -5,7 +5,7 @@ import { handleAddColumnModule } from './modules/AddColumn/handleModule.ts';
 import { handleAddPrimaryKeyModule } from './modules/AddPrimaryKey/handleModule.ts';
 import { handleDropColumnModule } from './modules/DropColumn/handleModule.ts';
 import { handleDropPrimaryKeyModule } from './modules/DropPrimaryKey/handleModule.ts';
-import { handleDumpTableSchemaModule } from './modules/DumpTableSchema/handleModule.ts';
+import { handleDumpTableModule } from './modules/DumpTable/handleModule.ts';
 import { handleInsertIntoTableModule } from './modules/InsertIntoTable/handleModule.ts';
 import { handlePredefinedViewRecordsModule } from './modules/PredefinedViewRecords/handleModule.ts';
 import { handlePredefinedViewRecordsWithCustomQueryModule } from './modules/PredefinedViewRecordsWithCustomQuery/handleModule.ts';
@@ -20,7 +20,7 @@ export enum EDbTableAdminMenuKey {
   BACK = `BACK`,
   DROP_COLUMN = `DROP_COLUMN`,
   DROP_PRIMARY_KEY = `DROP_PRIMARY_KEY`,
-  DUMP_TABLE_SCHEMA = `DUMP_TABLE_SCHEMA`,
+  DUMP_TABLE = `DUMP_TABLE`,
   INSERT_INTO_TABLE = `INSERT_INTO_TABLE`,
   PREDEFINED_VIEW_RECORDS = `PREDEFINED_VIEW_RECORDS`,
   PREDEFINED_VIEW_RECORDS_WITH_CUSTOM_QUERY = `PREDEFINED_VIEW_RECORDS_WITH_CUSTOM_QUERY`,
@@ -41,11 +41,6 @@ export const DB_TABLE_ADMIN_MENU_OPTIONS = getCommonMenuOptions<DbTableAdminMenu
     key: EDbTableAdminMenuKey.VIEW_TABLE_SCHEMA,
     label: `View table schema`,
     module: handleViewTableSchemaModule,
-  },
-  {
-    key: EDbTableAdminMenuKey.DUMP_TABLE_SCHEMA,
-    label: `Dump table schema`,
-    module: handleDumpTableSchemaModule,
   },
   {
     key: EDbTableAdminMenuKey.VIEW_RECORDS,
@@ -96,6 +91,11 @@ export const DB_TABLE_ADMIN_MENU_OPTIONS = getCommonMenuOptions<DbTableAdminMenu
     key: EDbTableAdminMenuKey.TRUNCATE_TABLE,
     label: `Truncate table...`,
     module: handleTruncateTableModule,
+  },
+  {
+    key: EDbTableAdminMenuKey.DUMP_TABLE,
+    label: `Dump table schema`,
+    module: handleDumpTableModule,
   },
   {
     key: EDbTableAdminMenuKey.BACK,

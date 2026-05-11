@@ -1,9 +1,9 @@
 import c from 'chalk';
 import type { ColumnType } from '../@types/ColumnType.ts';
 import { EPgKeywords } from '../@types/EPgKeywords.ts';
+import { SpecialValueType } from '../@types/SpecialValueType.ts';
 import { DB_TABLE } from '../dbTableConstructor/DB_TABLE.ts';
 import { arrayColumnType } from './arrayColumnType.ts';
-import { SpecialValues } from './specialValues.ts';
 
 export const columnTypes: ColumnType[] = [
   arrayColumnType,
@@ -16,7 +16,7 @@ export const columnTypes: ColumnType[] = [
         label: `Manual input`,
       },
       {
-        defaultValue: { type: SpecialValues.GEN_RANDOM_UUID },
+        defaultValue: { type: SpecialValueType.GEN_RANDOM_UUID },
         label: c.italic(`GEN_RANDOM_UUID()`),
       }
     ],

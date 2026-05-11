@@ -1,4 +1,4 @@
 import type { DbColumnSpecialValue } from './DbColumnSpecialValue.ts';
-import { SpecialValues } from './specialValues.ts';
+import { SpecialValueType } from './SpecialValueType.ts';
 
-export type DbColumnAutoincrementValue = DbColumnSpecialValue<SpecialValues.AUTO_INCREMENT>;
+export type DbColumnAutoincrementValue = DbColumnSpecialValue<SpecialValueType.AUTO_INCREMENT>;
